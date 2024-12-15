@@ -1,9 +1,13 @@
-import { Hono } from 'hono'
+import { Hono } from "hono";
 
-const app = new Hono()
+const app = new Hono();
 
-app.get('/', (c) => {
-  return c.text('Hello Hono!')
-})
+import seedRoute from "./routes/seed";
 
-export default app
+app.get("/", (c) => {
+  return c.text("Hello Hono!");
+});
+
+app.basePath("/api").route("/seed", seedRoute);
+
+export default app;
