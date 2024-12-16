@@ -6,6 +6,8 @@ export const productTable = table(
     id: int().primaryKey({ autoIncrement: true }),
     name: text().notNull(),
     sku: text(),
+    hsnCode: text().notNull().default("default"),
+    unit: text().notNull(),
     purchasePrice: int().notNull(),
     salePrice: int().notNull(),
     mrp: int().notNull(),
@@ -22,6 +24,7 @@ export const storesTable = table(
     address: text().notNull(),
     phone: text().notNull(),
     zone: text().notNull(),
+    paymentDue: int().notNull().default(0),
   },
   (t) => []
 );
@@ -63,6 +66,20 @@ export const invoicesTable = table(
       .notNull()
       .references(() => ordersTable.id),
     total: int().notNull(),
+    date: text().notNull(),
+    status: text().notNull().$type<"pending" | "completed">(),
+  },
+  (t) => []
+);
+
+export const paymentsTable = table(
+  "payments",
+  {
+    id: int().primaryKey({ autoIncrement: true }),
+    invoiceId: int()
+      .notNull()
+      .references(() => invoicesTable.id),
+    amount: int().notNull(),
     date: text().notNull(),
     status: text().notNull().$type<"pending" | "completed">(),
   },

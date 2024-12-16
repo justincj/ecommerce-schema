@@ -1,3 +1,5 @@
 import { drizzle } from "drizzle-orm/bun-sqlite";
+import { Database } from "bun:sqlite";
 
-export const db = drizzle();
+const sqlite = new Database("sqlite.db");
+export const db = drizzle({ client: sqlite });
